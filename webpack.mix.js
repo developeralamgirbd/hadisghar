@@ -33,7 +33,7 @@ mix.js("resources/js/app.js", "public/js")
         tailwindcss("tailwind-admin.config.js")
     ]).vue().alias({
     '@': 'resources/js',
-});
+}).js("resources/js/custom.js", "public/js");
 
 if (mix.inProduction()) {
     mix.version();

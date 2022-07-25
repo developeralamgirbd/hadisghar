@@ -1,8 +1,9 @@
 // require('./bootstrap2');
-const date = document.getElementById('date');
-setInterval(function (){
-    date.innerText = moment().format('dddd, Do MMM YYYY, LTS')
-}, 1000)
+// const date = document.getElementById('date');
+//
+// setInterval(function (){
+//     date.innerText = moment().format('dddd, Do MMM YYYY, LTS')
+// }, 1000)
 
 if (screen.width < 768){
     window.addEventListener('click', close);

@@ -16,11 +16,4 @@ class HomeController extends Controller
         SEOMeta::setTitle('Home');
         return view('home',compact('posts'));
     }
-    public function dropbox(){
-        Artisan::call('backup:run --only-db');
-        $backup = Artisan::output();
-        return Inertia::render('Dropbox', [
-            'backup' =>$backup
-        ]);
-    }
 }

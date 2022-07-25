@@ -16,12 +16,10 @@ class PostController extends Controller
     public function view($slug){
         try {
             $this->slug = $slug;
-            $post = Cache::remember('post-'.$slug, now()->hour, function (){
-                return Post::with('category:id,category_name')->select('id','title','description','meta_description', 'category_id', 'feature_img', 'status','slug', 'created_at')->where('slug', $this->slug)->orderBy('id', 'desc')->first();
-            });
+            $post = Post::withoutTrashed()->with('category:id,category_name')->select('id','title','description','meta_description', 'category_id', 'feature_img', 'status','slug', 'updated_at')->where('slug', $this->slug)->where('status', 'published')->first();
             SEOMeta::setTitle($post->title);
             SEOMeta::setDescription($post->meta_description);
-            return view('post.view', compact('post'));
+            return view('post.single-post', compact('post'));
         }catch (\Exception $e){
             return abort(404);
         }

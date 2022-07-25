@@ -17,7 +17,7 @@
                             <input type="hidden" id="token" name="_token" :value="$page.props.csrf_token">
                             <div class="input-wrap mb-6 rounded">
                                 <div class="input-group w-full flex items-center">
-                                    <p for="slug" class="text-gray-800 text-lg flex items-center">Permalink: {{ form.slug ? hostname +'/'+form.slug : ''}}</p>
+                                    <p for="slug" class="text-gray-800 text-lg flex items-center">Permalink: {{ form.slug ? hostname +'/post/'+form.slug : ''}}</p>
                                     <input type="text" disabled id="slug" name="slug" v-model="form.slug" class="w-full border-none bg-transparent hidden" >
                                 </div>
                             </div>
@@ -280,8 +280,8 @@ watch(form, (current, old) => {
     }else{
         disable.value = true
     }
-    let titleSlug = form.title.replace(/([^a-zA-Z0-9]+)/g, '-');
-    form.slug = titleSlug.toLowerCase();
+    let titleSlug = form.title.replace(/([' ','@','#','%','^','&','*','(',')','|','~','`','"',"'",'!','৥৳','%','ঃ',"\\/"]+)/g, '-');
+    form.slug = titleSlug;
     lengthSeoMeta.value = form.meta_description.length;
     if (form.meta_description !== ''){
         if (form.meta_description.length < 145 || form.meta_description.length > 156 && form.meta_description.length !== 0){

@@ -12,7 +12,7 @@
                         <input type="hidden" id="token" name="_token" :value="$page.props.csrf_token">
                         <div class="input-wrap mb-6 rounded">
                             <div class="input-group w-full flex items-center">
-                                <p for="slug" class="text-gray-800 text-lg flex items-center">Permalink: {{ form.slug ? hostname+form.slug : ''}}</p>
+                                <p for="slug" class="text-gray-800 text-lg flex items-center">Permalink: {{ form.slug ? hostname+'post/'+form.slug : ''}}</p>
                                 <input type="text" disabled id="slug" name="slug" v-model="form.slug" class="w-full border-none bg-transparent hidden" >
                             </div>
                         </div>
@@ -78,20 +78,6 @@
                                 </div>
                                 <input ref="photoInput" @change="updatePhotoPreview" @input="form.photo = $event.target.files[0]" type="file" class="absolute w-full h-full left-0 top-0 opacity-0 cursor-pointer">
                             </div>
-
-
-<!--                            <div class="input-group w-full md:w-2/3 lg:w-1/3 relative">-->
-<!--                                <label for="" class="text-lg text-gray-800">Feature Image (Optional)</label>-->
-<!--                                <div class="" :class="photoPreview || feature_img ? 'block w-full h-[200px]' : 'w-full bg-gray-200 rounded h-[200px] flex justify-center items-center cursor-pointer border-gray-50 border-2'">-->
-<!--                                            <span :class="photoPreview || feature_img ? 'block' : 'hidden'"-->
-<!--                                                  class="w-full h-full bg-cover bg-no-repeat bg-center"-->
-<!--                                                  :style=" photoPreview ? 'background-image: url(\'' + photoPreview + '\');' : 'background-image: url(\'' + feature_img + '\');'"-->
-<!--                                            />-->
-
-<!--                                    <i class="fa-solid fa-cloud-arrow-up text-[100px] text-gray-50" :class="photoPreview || feature_img ? 'hidden' : 'text-center'"></i>-->
-<!--                                </div>-->
-<!--                                <input ref="photoInput" @change="updatePhotoPreview" @input="form.photo = $event.target.files[0]" type="file" class="absolute w-full h-full left-0 top-0 opacity-0 cursor-pointer">-->
-<!--                            </div>-->
 
                             <!---------------------------------
                                ! Google Preview
@@ -263,12 +249,14 @@ let checkForm = ref(0);
 const disable = ref(true);
 let feature_img = ref(null);
 watch(form, (current, old) => {
-    if(Object.values(form)[1] !== "" && Object.values(form)[2] !== "" && Object.values(form)[3] !== "" && Object.values(form)[4] !== "" && Object.values(form)[5] !== ""){
-        disable.value = false;
-        checkForm.value += 1;
-    }else{
-        disable.value = true
-    }
+        if(Object.values(form)[1] !== "" && Object.values(form)[2] !== "" && Object.values(form)[3] !== "" && Object.values(form)[4] !== "" && Object.values(form)[5] !== ""){
+            disable.value = false;
+            checkForm.value += 1;
+        }else{
+            disable.value = true
+        }
+    let titleSlug = form.title.replace(/([' ','@','#','%','^','&','*','(',')','|','~','`','"',"'",'!','৥৳','%','ঃ',"\\/"]+)/g, '-');
+    form.slug = titleSlug;
     });
 
 onMounted(() => {

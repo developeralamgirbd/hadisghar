@@ -15,8 +15,4 @@
         </main>
         <div id="bg" class="bg-gray-800 opacity-25 w-full h-full fixed left-0 top-0 z-10 hidden"></div>
     </body>
-    <script type="text/javascript">
-
-
-    </script>
-</html>
+    </html>

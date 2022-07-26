@@ -7,6 +7,7 @@ use App\Models\MailSetting;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+//        Carbon::setlocale(config('app.locale'));
         if (Schema::hasTable('dropboxes')){
             $dropbox = Dropbox::first();
             if ($dropbox){

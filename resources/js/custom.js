@@ -1,4 +1,5 @@
-// require('./bootstrap2');
+// window.moment = require('moment');
+// require('moment/locale/bn-bd');
 // const date = document.getElementById('date');
 //
 // setInterval(function (){

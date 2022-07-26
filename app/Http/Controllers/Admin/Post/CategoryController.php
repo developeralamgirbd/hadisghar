@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin\Post;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 class CategoryController extends Controller
 {
@@ -26,14 +27,11 @@ class CategoryController extends Controller
             'slug' => 'required|unique:categories,slug',
         ]);
         try {
-            $category = Category::create([
+            Category::create([
                 'category_name' => $request->category_name,
-                'slug' => $request->slug,
+                'slug' => Str::slug($request->slug),
             ]);
             return redirect()->route('admin.category.index');
-//            return Inertia::render('Admin/Posts/Category', [
-//               'categories' => $category
-//            ]);
         }catch (\Exception $e){
             echo $e->getMessage();
         }
@@ -46,7 +44,7 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail($id);
             $category->category_name = $request->category;
-            $category->slug = $request->categorySlug;
+            $category->slug = Str::slug($request->categorySlug);
             $category->update();
             return redirect()->route('admin.category.index');
         }catch (\Exception $e){

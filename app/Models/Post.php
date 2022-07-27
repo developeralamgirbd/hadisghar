@@ -35,4 +35,6 @@ class Post extends Model implements Sitemapable
     {
         return route('post.view', $this);
     }
+
+
 }

@@ -6,6 +6,7 @@
 
         {!! SEOMeta::generate() !!}
         <link rel="stylesheet" href="{{ mix('css/app.css') }}"/>
+        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
         <script src="{{ mix('js/custom.js') }}" defer></script>
     </head>
     <body>

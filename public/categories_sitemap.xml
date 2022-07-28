@@ -1,20 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
-        <loc>http://localhost/category/আকীদা</loc>
-        <lastmod>2022-07-25T09:08:49+06:00</lastmod>
+        <loc>http://localhost/category/akeeda</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
         </url>
     <url>
-        <loc>http://localhost/category/সালাত</loc>
-        <lastmod>2022-07-25T09:08:49+06:00</lastmod>
+        <loc>http://localhost/category/akeeda2</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
         </url>
     <url>
-        <loc>http://localhost/category/সিয়াম</loc>
-        <lastmod>2022-07-25T09:08:49+06:00</lastmod>
+        <loc>http://localhost/category/akeeda3</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+        </url>
+    <url>
+        <loc>http://localhost/category/akeeda4</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+        </url>
+    <url>
+        <loc>http://localhost/category/akeeda5</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+        </url>
+    <url>
+        <loc>http://localhost/category/akeeda6</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+        </url>
+    <url>
+        <loc>http://localhost/category/akeeda7</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+        </url>
+    <url>
+        <loc>http://localhost/category/akeedafsdfdsf</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+        </url>
+    <url>
+        <loc>http://localhost/category/akeeda44564</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+        </url>
+    <url>
+        <loc>http://localhost/category/akeedafsdfsdf</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+        </url>
+    <url>
+        <loc>http://localhost/category/akeedafsdfsf</loc>
+        <lastmod>2022-07-28T12:32:41+06:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
         </url>

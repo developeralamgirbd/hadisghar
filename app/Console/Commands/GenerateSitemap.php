@@ -38,6 +38,7 @@ class GenerateSitemap extends Command
             ->add('/categories_sitemap.xml')
             ->add('/pages_sitemap.xml')
             ->writeToFile(public_path('sitemap.xml'));
+//        Post Sitemap
         $posts = Post::all()->pluck('slug');
         $postSitemap = Sitemap::create();
             foreach ($posts as $post){
@@ -45,14 +46,15 @@ class GenerateSitemap extends Command
             }
             $postSitemap->writeToFile(public_path('posts_sitemap.xml'));
 
-        $categories = Category::all()->pluck('category_name');
+//Category Sitemap
+        $categories = Category::all()->pluck('slug');
        $categorySitemap = Sitemap::create();
         foreach ($categories as $category){
             $categorySitemap->add('category/'.$category);
         }
         $categorySitemap->writeToFile(public_path('categories_sitemap.xml'));
-
-        $pages = ['/'];
+//Pages Sitemap
+        $pages = ['/', 'privacy'];
         Sitemap::create()
             ->add($pages)
             ->writeToFile(public_path('pages_sitemap.xml'));

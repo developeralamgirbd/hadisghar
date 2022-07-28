@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['category_name', 'slug'];
+    protected $fillable = ['category_name', 'slug', 'meta_description'];
 
 
     public function posts(){

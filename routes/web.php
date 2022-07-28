@@ -119,6 +119,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
     /** Maintenance Setting Route **/
     Route::get('maintenance', [\App\Http\Controllers\Admin\MaintenanceController::class, 'index'])->name('maintenance.index')->middleware('role_or_permission:admin');
     Route::get('maintenance-status/{status}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'settings'])->name('maintenance.setting')->middleware('role_or_permission:admin');
+
+    /** Privacy Policy page Route **/
+    Route::get('privacy-policy-page', [\App\Http\Controllers\Admin\AdminController::class, 'privacyPolicy'])->name('privacy.policy')->middleware('role_or_permission:admin');
+    Route::post('privacy-policy-page', [\App\Http\Controllers\Admin\AdminController::class, 'privacyPolicyStore'])->name('privacy.policy.store')->middleware('role_or_permission:admin');
+
 });
 
 Route::post('/upload',[\App\Http\Controllers\Admin\TynimceController::class, 'upload'])->middleware(['role_or_permission:admin|edit post|edit others post']);
@@ -168,6 +173,7 @@ Route::post('/logout', [\App\Http\Controllers\AuthenticatedSessionController::cl
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('post/{slug}', [\App\Http\Controllers\PostController::class, 'view'])->name('post.view');
 Route::get('category/{slug}', [\App\Http\Controllers\PostController::class, 'categoryPost'])->name('category.post');
+Route::get('/privacy', [\App\Http\Controllers\HomeController::class, 'privacy'])->name('page.privacy');
 
 
 

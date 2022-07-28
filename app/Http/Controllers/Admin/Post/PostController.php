@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostContentImage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -128,6 +129,7 @@ class PostController extends Controller
             $post->category_id = $request->category;
             $post->user_id = Auth::id();
             $post->feature_img = $uploadPath;
+            $post->created_at = Carbon::now();
             if (Auth::user()->can('published post')){
                 $post->status = $request->status;
             }else{

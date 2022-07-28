@@ -31,7 +31,7 @@
                         <div class="input-wrap mb-6 rounded">
                             <div class="input-group w-full">
                                 <label for="" class="text-gray-800 text-lg">Description<span class="text-red-600">*</span></label>
-                                <editor v-model="form.description"
+                                <editor class="tinyEditor" v-model="form.description"
                                         api-key="f0nepqqrlzipwloln88xx5ltuz5ffy9trzchxjkgphxa2u4y"
                                         :plugins="tinyPlugins"
                                         :toolbar="tinyToolbar"
@@ -51,6 +51,7 @@
                                           class="w-full focus:border-indigo-300 focus:ring-indigo-300 rounded-[5px] border-gray-300"
                                           :class="{'border-red-500' : errors.meta_description}"
                                 ></textarea>
+                                <progress id="progress" max="156" :value="form.meta_description.length" class="block w-full"></progress>
                                 <p class="text-red-500" v-if="errors.meta_description">{{ errors.meta_description }}</p>
                             </div>
                         </div>
@@ -164,15 +165,18 @@ export default {
             permissionArr: [],
             isPublished: null,
             editor: Editor,
-            tinyPlugins: ["advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste imagetools"],
+            tinyPlugins: 'autoresize print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
 
-            tinyToolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            tinyToolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
             tinyInit: {
                 image_class_list: [
                     {title: 'img-responsive', value: 'img-responsive'},
                 ],
+                toolbar_sticky: true,
+                content_style: "@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');",
+                font_formats: "Naskh Arabic=Noto Naskh Arabic, serif;" ,
+                fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 26pt 28pt 30pt 32pt 34pt 36pt 40pt 48pt 52pt 60pt 72pt 96pt",
+
                 height: 800,
                 setup: function (editor) {
                     editor.on('init change', function () {
@@ -198,7 +202,7 @@ export default {
 
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import {computed, onMounted, ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useForm, Link,} from "@inertiajs/inertia-vue3";
 import Editor from '@tinymce/tinymce-vue';
 import Swal from "sweetalert2";
@@ -230,6 +234,14 @@ let isTrue = false;
 const photoPreview = ref(null);
 const photoInput = ref(null);
 
+const hostname = window.location.origin+'/';
+let post_id = ref(null);
+let checkForm = ref(0);
+const disable = ref(true);
+let feature_img = ref(null);
+let lengthSeoMeta = ref(null);
+let seoMetaCheck = ref(null);
+
 const updatePhotoPreview = () => {
     const photo = photoInput.value.files[0];
 
@@ -243,11 +255,18 @@ const updatePhotoPreview = () => {
     reader.readAsDataURL(photo);
 };
 
-const hostname = window.location.origin+'/';
-let post_id = ref(null);
-let checkForm = ref(0);
-const disable = ref(true);
-let feature_img = ref(null);
+const mobilePreview = ref(true);
+const desktopPreview = ref(false);
+const previewMob = () =>{
+    mobilePreview.value = true;
+    desktopPreview.value = false;
+};
+const previewDesk = () =>{
+    mobilePreview.value = false;
+    desktopPreview.value = true;
+};
+
+
 watch(form, (current, old) => {
         if(Object.values(form)[1] !== "" && Object.values(form)[2] !== "" && Object.values(form)[3] !== "" && Object.values(form)[4] !== "" && Object.values(form)[5] !== ""){
             disable.value = false;
@@ -257,6 +276,20 @@ watch(form, (current, old) => {
         }
     let titleSlug = form.title.replace(/([' ','@','#','%','^','&','*','(',')','|','~','`','"',"'",'!','৥৳','%','ঃ',"\\/"]+)/g, '-');
     form.slug = titleSlug;
+    lengthSeoMeta.value = form.meta_description.length;
+    if (form.meta_description !== ''){
+        if (form.meta_description.length < 145 || form.meta_description.length > 156 && form.meta_description.length !== 0){
+            seoMetaCheck.value = true;
+            const progressEl = document.getElementById('progress')
+            progressEl.style.setProperty('--progressbar-background', '#EE7C1B')
+        }else if(form.meta_description.length === 0){
+            seoMetaCheck.value = false;
+        }else {
+            seoMetaCheck.value = false;
+            const progressEl = document.getElementById('progress')
+            progressEl.style.setProperty('--progressbar-background', '#7AD03A')
+        }
+    }
     });
 
 onMounted(() => {
@@ -297,9 +330,21 @@ const postUpdate = function() {
         }
     })
 }
-
-
 </script>
-<style scoped>
 
+<style scoped>
+progress{
+    --progressbar-background: red;
+}
+progress {
+    height: 10px;
+    border: 1px solid #dedede;
+}
+progress::-webkit-progress-bar {
+    background-color: transparent;
+}
+progress::-webkit-progress-value {
+    background-color: var(--progressbar-background);
+}
 </style>
+

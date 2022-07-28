@@ -48,7 +48,7 @@
             <td>
                 <div class="">
                      <span v-if="permissionArr.includes('edit category')">
-                           <button @click="editModal(category.id, category.category_name, category.slug)" class="mr-2 bg-green-400 text-white px-2 py-1 rounded"><fa icon="fa-pen-to-square"/></button>
+                           <button @click="editModal(category.id, category.category_name, category.slug, category.meta_description)" class="mr-2 bg-green-400 text-white px-2 py-1 rounded"><fa icon="fa-pen-to-square"/></button>
                      </span>
                         <span v-if="permissionArr.includes('delete category')">
                             <button type="button" class="bg-red-400 text-white px-2 py-1 rounded" @click.prevent="deleteSwal(category.id, category.category_name)"><fa icon="fa-trash-can"/></button>
@@ -58,11 +58,11 @@
                 ! Category Update Modal
                 ---------------------->
                 <div class="" v-if="isModalOpen">
-                    <div class="fixed left-[5px] right-[8px] md:left-1/4 md:right-[0px] lg:left-[400px] top-20 lg:top-1/4 bg-white rounded p-4 z-50 w-[98%] md:w-[400px] lg:w-[400px]">
+                    <div class="fixed left-[5px] right-[8px] md:left-1/4 md:right-[0px] lg:left-[400px] top-10  bg-white rounded p-4 z-50 w-[98%] md:w-[400px] lg:w-[400px]">
                         <h1 class="text-lg mb-4 font-medium text-green-800">Update Category</h1>
                         <form @submit.prevent="updateCategory">
                             <div class="">
-                                <JetLabel class="block" for="category">Category Name</JetLabel>
+                                <JetLabel class="block" for="category">Category Name<span class="text-rose-500">*</span></JetLabel>
                                 <JetInput
                                     type="text"
                                     v-model="updateForm.category"
@@ -73,8 +73,7 @@
                                 <p class="text-sm text-red-500 mb-2" v-if="errors.category">{{errors.category}}</p>
                             </div>
                             <div class="">
-
-                                <JetLabel class="block" for="slug">Category Slug</JetLabel>
+                                <JetLabel class="block" for="slug">Category Slug<span class="text-rose-500">*</span></JetLabel>
                                 <JetInput
                                     type="text"
                                     v-model="updateForm.categorySlug"
@@ -85,14 +84,28 @@
                                 <p class="text-sm text-red-500 mb-2" v-if="errors.categorySlug">{{errors.categorySlug}}</p>
                             </div>
 
+                            <div class="input-group w-full mt-8">
+                                <label for="metaDescription" class="text-gray-800 text-lg">Meta Description<span class="text-rose-500">*</span></label>
+                                <textarea type="text"
+                                          rows="6"
+                                          id="metaDescription"
+                                          name="meta_description"
+                                          v-model="updateForm.meta_description"
+                                          class="w-full rounded-[5px] border-gray-300"
+                                          :class="errors.meta_description ? 'border-rose-500 focus:border-rose-300 focus:ring-rose-300' : 'focus:border-indigo-300 focus:ring-indigo-300' "
+                                ></textarea>
+                                <progress id='CatProgress' ref='CatProgress' max='156' :value='updateForm.meta_description.length' class='block w-full'></progress>
+                                <p class="text-red-500 " v-if="errors.meta_description">{{ errors.meta_description }}</p>
+                            </div>
+
                             <div class="">
                                 <button type="submit" class="mt-4 mr-2 bg-blue-500 py-1 px-2 rounded text-white">Update</button>
                                 <button type="button" @click="cancelEditModal" class="mt-4 bg-red-500 py-1 px-2 rounded text-white">Cancel</button>
                             </div>
                         </form>
                     </div>
-                    <div class="absolute left-0 top-0 w-full h-full bg-gray-400" style="opacity: 0.1"></div>
                 </div>
+                <div v-if="isModalOpen" class="fixed left-0 top-0 w-full bg-gray-600" style="opacity: 0.1; min-height: 100%"></div>
             </td>
 
         </tr>
@@ -101,7 +114,7 @@
     <p class="text-center text-lg mt-4" v-if="isSearchNull">Data not found</p>
 
     <div class="md:flex md:justify-between md:items-center mt-4 mb-20">
-        <div class="">Show {{ showInfo.from }} to {{ showInfo.to }} of {{ showInfo.of }} entries</div>
+        <div class="" id="demo">Show {{ showInfo.from }} to {{ showInfo.to }} of {{ showInfo.of }} entries</div>
         <div class="">
             <div class="block md:hidden">
                 <div class="gap-1 items-center justify-between flex">
@@ -189,9 +202,12 @@ export default {
             isSearchNull: false,
             isModalOpen: false,
             categoryId: '',
+            seoMetaCheck: '',
+            lengthSeoMeta: '',
             updateForm: useForm({
                 'category': '',
-                'categorySlug': ''
+                'categorySlug': '',
+                'meta_description': ''
             }),
 
 
@@ -215,21 +231,17 @@ export default {
         this.allPages = $.array.pages(this.rawRows, this.currentEntries);
     },
 
-    watch: {
-        currentEntries: {
-            handler(){
-                this.allPages = $.array.pages(this.rawRows, this.currentEntries);
-            }
-        },
-        updateForm:{
-            handler(){
-                let catVal = this.updateForm.category.replace(/([" "]+)/g, '-');
-                this.updateForm.categorySlug = catVal.toLowerCase();
-            },
-            deep: true,
-        },
-    },
+
+
     methods: {
+        editModal(id, name, slug, meta_description){
+            this.isModalOpen = true;
+            this.categoryId = id;
+            this.updateForm.category = name;
+            this.updateForm.categorySlug = slug;
+            this.updateForm.meta_description = meta_description;
+
+        },
         deleteSwal: function (id, category) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -275,18 +287,14 @@ export default {
             this.paginateEntries();
         },
 
-        editModal(id, name, slug){
-            this.isModalOpen = true;
-            this.categoryId = id;
-            this.updateForm.category = name;
-            this.updateForm.categorySlug = slug;
-        },
+
         cancelEditModal(){
             this.isModalOpen = false;
             this.updateForm.reset();
         },
         updateCategory(){
             this.updateForm.put(route('admin.category.update', this.categoryId), {
+                preserveState: false,
                 preserveScroll: true,
                 onSuccess: () => {
                     this.isModalOpen = false,
@@ -298,12 +306,62 @@ export default {
             });
         },
     },
+
+
+    watch: {
+        currentEntries: {
+            handler(){
+                this.allPages = $.array.pages(this.rawRows, this.currentEntries);
+            }
+        },
+        updateForm:{
+            handler(){
+                let catVal = this.updateForm.category.replace(/([" "]+)/g, '-');
+                this.updateForm.categorySlug = catVal.toLowerCase();
+                    this.lengthSeoMeta = this.updateForm.meta_description.length;
+
+                    if (this.updateForm.meta_description !== ''){
+                        if (this.updateForm.meta_description.length < 145 || this.updateForm.meta_description.length > 156 && this.updateForm.meta_description.length !== 0){
+                            this.seoMetaCheck = true;
+                            if (document.getElementById('CatProgress') != null) {
+                                const progressEl2 = document.getElementById('CatProgress')
+                                progressEl2.style.setProperty('--progressbar-background', '#EE7C1B')
+                            }
+                        }else if(this.updateForm.meta_description.length === 0){
+                            this.seoMetaCheck = false;
+                        }else {
+                            this.seoMetaCheck = false;
+                            if (document.getElementById('CatProgress') != null) {
+                                const progressEl3 = document.getElementById('CatProgress');
+                                progressEl3.style.setProperty('--progressbar-background', '#7AD03A')
+                            }
+                        }
+                    }
+            },
+            deep: true,
+
+        },
+    },
 }
 </script>
 
-<style>
+<style scoped>
 
 .email:hover .sort{
     display: block!important;
+}
+
+progress{
+    --progressbar-background: #EE7C1B;
+}
+progress {
+    height: 10px;
+    border: 1px solid #dedede;
+}
+progress::-webkit-progress-bar {
+    background-color: transparent;
+}
+progress::-webkit-progress-value {
+    background-color: var(--progressbar-background);
 }
 </style>

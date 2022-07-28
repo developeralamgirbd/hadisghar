@@ -10,7 +10,7 @@ class CategoryController extends Controller
     public function index(Request $request){
         try {
             $trashed = Category::onlyTrashed()->count();
-            $categories = Category::with('posts')->select('id','category_name', 'slug')->get();
+            $categories = Category::with('posts')->select('id','category_name', 'slug', 'meta_description')->get();
             return Inertia::render('Admin/Posts/Category', [
                 'categories' => $categories,
                 'trashed' => $trashed,
@@ -25,11 +25,13 @@ class CategoryController extends Controller
         $request->validate([
             'category_name' => 'required|unique:categories,category_name',
             'slug' => 'required|unique:categories,slug',
+            'meta_description' => 'required'
         ]);
         try {
             Category::create([
                 'category_name' => $request->category_name,
                 'slug' => Str::slug($request->slug),
+                'meta_description' => $request->meta_description,
             ]);
             return redirect()->route('admin.category.index');
         }catch (\Exception $e){
@@ -45,6 +47,7 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $category->category_name = $request->category;
             $category->slug = Str::slug($request->categorySlug);
+            $category->meta_description = $request->meta_description;
             $category->update();
             return redirect()->route('admin.category.index');
         }catch (\Exception $e){

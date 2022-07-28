@@ -14,9 +14,21 @@ class PostController extends Controller
 {
     public $slug;
     public function categoryPost($slug){
-        $category_id = Category::withoutTrashed()->where('slug', $slug)->select('id')->first();
-        $posts = Post::withoutTrashed()->with(['category:category_name', 'user:name'])->where('category_id', $category_id->id)->where('status', 'published')->select('id','title','description', 'feature_img','category_id', 'status','slug')->orderBy('id', 'desc')->paginate(18);
-        return view('post.category-posts',compact('posts'));
+
+        try {
+            $category = Category::withoutTrashed()->where('slug', $slug)->select('id', 'category_name')->first();
+            $posts = Post::withoutTrashed()->with(['category:category_name', 'user:name'])->where('category_id', $category->id)->where('status', 'published')->select('id','title','description', 'feature_img','category_id', 'status','slug')->orderBy('id', 'desc')->paginate(18);
+
+            SEOMeta::setTitle($category->category_name);
+            SEOMeta::setDescription($category->meta_description);
+            return view('post.category-posts',compact('posts'));
+        }catch (\Exception $e){
+            if (config('app.debug')){
+                echo $e->getMessage();
+            }else{
+                return abort(500);
+            }
+        }
     }
 
     public function view(Request $request, $slug){
@@ -44,7 +56,7 @@ class PostController extends Controller
                 ->take(8)->get();
 
             $posts = Post::withoutTrashed()->with('category:id,category_name')
-                ->select('id','title','description','meta_description', 'category_id', 'feature_img', 'status','slug','reads', 'updated_at')
+                ->select('id','title','description','meta_description', 'category_id', 'feature_img', 'status','slug','reads', 'created_at')
                 ->where('slug', $this->slug)->where('status', 'published')->first();
 
             SEOMeta::setTitle($posts->title);
@@ -73,9 +85,5 @@ class PostController extends Controller
             }
 
         }
-    }
-
-    public function search(Request $request){
-        dd($request->all());
     }
 }

@@ -14,6 +14,7 @@
         <main>
             @yield('main')
         </main>
-        <div id="bg" class="bg-gray-800 opacity-25 w-full h-full fixed left-0 top-0 z-10 hidden"></div>
+        <div id="bg" class="bg-gray-800 opacity-25 w-full fixed left-0 top-0 z-10 hidden" style="min-height: 100%"></div>
+    @include('layout.footer')
     </body>
     </html>

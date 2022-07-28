@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\PrivacyPolicy;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -82,5 +83,37 @@ class AdminController extends Controller
         return tap(new Agent, function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);
         });
+    }
+
+    public function privacyPolicy(){
+       $privacy = PrivacyPolicy::first();
+        return Inertia::render('Admin/PrivacyPolicy', [
+            'privacyPolicy' =>$privacy
+        ]);
+    }
+
+    public function privacyPolicyStore(Request $request){
+        $request->validate([
+           'pageContent' => 'required|min:2'
+        ]);
+        try {
+            if ($request->id != ""){
+                $privacyPolicy = PrivacyPolicy::find($request->id);
+                $privacyPolicy->content = $request->pageContent;
+                $privacyPolicy->update();
+            }else{
+                $privacyPolicy = PrivacyPolicy::create([
+                    'content' => $request->pageContent,
+                ]);
+            }
+
+            return redirect()->back();
+        }catch (\Exception $e){
+            if (config('app.debug')){
+                echo $e->getMessage();
+            }else{
+                return abort(500);
+            }
+        }
     }
 }

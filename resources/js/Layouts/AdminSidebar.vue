@@ -223,6 +223,17 @@
                     <!--------------------------------------------------------------------------
                     | Maintenance Route End
                     ---------------------------------------------------------------------------->
+
+                    <!--------------------------------------------------------------------------
+                | Privacy Policy Route Start
+                ---------------------------------------------------------------------------->
+                    <li v-if="$page.props.user_role_check.toLowerCase() === 'admin'" class="mb-8">
+                        <Link :href="route('admin.privacy.policy')" :class="{'text-rose-500': $page.component === 'Admin/PrivacyPolicy'}" class="relative text-white hover:text-rose-500 transition duration-200 text-xl lg:text-sm flex items-center gap-1">
+                            <fa icon="fa-user-shield" class="font-light text-sm" /> Privacy Policy</Link>
+                    </li>
+                    <!--------------------------------------------------------------------------
+                    | Privacy Policy Route End
+                    ---------------------------------------------------------------------------->
                 </ul>
             </div>
 

@@ -3,7 +3,7 @@
         <div class="md:container md:mx-auto md:px-8 px-4 py-14">
             <div class="lg:flex lg:gap-4">
                 <div class="lg:w-3/4">
-                    <input type="hidden" id="postDate" value="{{ $posts->updated_at }}">
+                    <input type="hidden" id="postDate" value="{{ $posts->created_at }}">
                     <p class="my-4 font-semibold text-[14px]">ক্যাটেগরী: <span class="text-green-700 font-semibold"> {{ $posts ? $posts->category->category_name : '' }} </span> | আপডেট:
                         <span class="text-green-700 font-semibold" id="setPostDate"> </span>
                     </p>
@@ -11,7 +11,7 @@
                     @if($posts->feature_img != null)
                         <img src="{{ asset( $posts ? $posts->feature_img : '') }}" alt="" class="w-[60%] h-[450px] mb-8">
                     @endif
-                    <div class="pb-14 pt-4 text-gray-700 text-[14px]">
+                    <div class="pb-14 pt-4 text-gray-700 text-[16px]  post-content">
                        {!! $posts ? $posts->description : '' !!}
                     </div>
                     <!--
@@ -46,10 +46,11 @@
                 -->
                 <div class="lg:w-1/4">
                     <div class="popular-post border p-2 mb-8 mt-8">
+                       <!--  Popular Post -->
                         <h1 class="font-semibold text-rose-500 mb-4 text-lg">সর্বাদিক পঠিত হাদিস</h1>
                         <ul>
                             @foreach($popular_posts as $post)
-                                <li class="border-b last:border-b-0"><a href="{{ $post->slug }}" class="py-2 text-green-600 block">{{ $post->title  }}</a></li>
+                                <li class="border-b last:border-b-0"><a href="{{ $post->slug }}" class="py-2 text-green-600 block text-[18px]">{{ $post->title  }}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -71,4 +72,5 @@
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
             setPostDate.innerText = event.toLocaleDateString('bn-bd', options);
         </script>
+
     @endsection

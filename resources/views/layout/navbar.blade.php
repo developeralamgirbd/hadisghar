@@ -5,14 +5,14 @@
     <div class="top-nev border-b">
         <div class="lg:container lg:mx-auto lg:px-8 px-4">
             <div class="lg:flex lg:items-center lg:gap-5 h-[145px] lg:h-[60px]">
-                <div class="flex gap-1 items-center lg:py-4 pt-4 lg:w-[350px]">
+                <div class="flex gap-1 items-center lg:py-4 pt-4 w-full lg:w-[370px]">
                     <svg class="w-[15px]" fill="#15803D" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M160 32V64H288V32C288 14.33 302.3 0 320 0C337.7 0 352 14.33 352 32V64H400C426.5 64 448 85.49 448 112V160H0V112C0 85.49 21.49 64 48 64H96V32C96 14.33 110.3 0 128 0C145.7 0 160 14.33 160 32zM0 192H448V464C448 490.5 426.5 512 400 512H48C21.49 512 0 490.5 0 464V192zM64 304C64 312.8 71.16 320 80 320H112C120.8 320 128 312.8 128 304V272C128 263.2 120.8 256 112 256H80C71.16 256 64 263.2 64 272V304zM192 304C192 312.8 199.2 320 208 320H240C248.8 320 256 312.8 256 304V272C256 263.2 248.8 256 240 256H208C199.2 256 192 263.2 192 272V304zM336 256C327.2 256 320 263.2 320 272V304C320 312.8 327.2 320 336 320H368C376.8 320 384 312.8 384 304V272C384 263.2 376.8 256 368 256H336zM64 432C64 440.8 71.16 448 80 448H112C120.8 448 128 440.8 128 432V400C128 391.2 120.8 384 112 384H80C71.16 384 64 391.2 64 400V432zM208 384C199.2 384 192 391.2 192 400V432C192 440.8 199.2 448 208 448H240C248.8 448 256 440.8 256 432V400C256 391.2 248.8 384 240 384H208zM320 432C320 440.8 327.2 448 336 448H368C376.8 448 384 440.8 384 432V400C384 391.2 376.8 384 368 384H336C327.2 384 320 391.2 320 400V432z"/></svg>
-                    <date class="font-serif font-semibold text-green-700" id="date">
+                    <date class="font-serif font-semibold text-green-700 text-sm" id="date">
                     </date>
                 </div>
                 <div class="lg:flex items-center gap-1">
                     <h1 class="lg:py-1 pt-2 lg:px-2 lg:bg-[#D3EACA] font-semibold text-gray-700 text-sm rounded-l font-semibold">সর্বশেষ আপডেট</h1>
-                    <div class="element text-green-700"></div>
+                    <div class="element text-green-700 text-sm md:text-lg"></div>
                 </div>
             </div>
         </div>
@@ -38,17 +38,17 @@
                     </button>
 
                 </div>
-                <ul class="absolute left-0 top-0 md:relative w-[0px] md:w-full bg-white z-50 h-[100vh] md:h-auto overflow-hidden text-lg" id="menu">
+                <ul class="fixed left-0 top-0 md:relative w-[0px] overflow-scroll lg:overflow-hidden md:w-full bg-white z-50 md:h-auto text-lg h-[100%] lg:h-auto" id="menu">
                     <li class="mr-1 hidden md:inline"><a href="/" class="font-semibold {{ (request()->is('/')) ? 'text-rose-600' : 'text-green-600' }}"> হোম </a><span class="hidden md:inline">/</span></li>
                     @foreach($categories as $category)
                         <li class="md:inline md:mr-1">
-                            <a href="{{route('category.post', $category->slug)}}" class=" {{ (request()->is('category/'.$category->slug)) ? 'text-rose-600' : 'md:text-green-600' }} bg-gray-100 md:bg-transparent w-full md:w-auto block md:inline p-2 md:p-0 border-b border-white md:border-none text-center md:text-left font-semibold">{{\Illuminate\Support\Str::replace(' ', ', ', $category->category_name)}}
+                            <a href="{{route('category.post', $category->slug)}}" class=" {{ (request()->is('category/'.$category->slug)) ? 'text-rose-600' : 'md:text-green-600' }} hover:text-rose-500 transition duration-300 bg-gray-100 md:bg-transparent w-full md:w-auto block md:inline p-2 md:p-0 border-b border-white md:border-none text-center md:text-left font-semibold">{{\Illuminate\Support\Str::replace(' ', ', ', $category->category_name)}}
                                  </a><span class="hidden md:inline">/</span></li>
                     @endforeach
                 </ul>
             </nav>
         @if(Request::segments())
-        <ul class="breadcrumb flex items-center gap-1 mt-2">
+        <ul class="breadcrumb md:flex items-center gap-1 mt-2">
             <li><a href="/" class="flex items-center gap-1">Home / </a></li>
             <?php $segments = ''; ?>
             @foreach(Request::segments() as $segment)
@@ -65,11 +65,16 @@
     @php
         $posts = \App\Models\Post::withoutTrashed()->where('status', 'published')->select('slug','title')->take(5)->latest()->get();
         $array = array();
-        foreach ($posts as $post){
-          array_push($array, "<a href='".route('post.view', $post->slug)."'>".$post->title."</a>");
+
+        if ($posts){
+               foreach ($posts as $post){
+              array_push($array, "<a href='".route('post.view', $post->slug)."'>".$post->title."</a>");
+              $strings = json_encode($array);
+               echo "let strings = $strings";
+            }
         }
-        $strings = json_encode($array);
-        echo "let strings = $strings";
+
+
     @endphp
 
     const date = document.getElementById('date');
@@ -79,20 +84,22 @@
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
        date.innerText = event.toLocaleDateString('bn-bd', options)
     }, 1000);
+    let typed = null;
+    if( typeof strings != 'undefined' ){
+         typed = new Typed('.element', {
+            strings: strings,
+            typeSpeed: 60,
+            loop: true,
+            showCursor: true,
+            cursorChar: "_",
+            backDelay: 2000,
+            smartBackspace: true,
+            onStop: function(pos, self) { },
+        });
+    }
 
-    let typed = new Typed('.element', {
-        strings: strings,
-        typeSpeed: 60,
-        loop: true,
-        showCursor: true,
-        cursorChar: "_",
-        backDelay: 2000,
-        smartBackspace: true,
-        onStop: function(pos, self) { },
-    });
 
     element.addEventListener('mouseenter', function (){
-        console.log(this)
         typed.stop();
     })
     element.addEventListener('mouseout', function (){

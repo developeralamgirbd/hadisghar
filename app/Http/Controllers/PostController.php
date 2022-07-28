@@ -16,11 +16,13 @@ class PostController extends Controller
     public function categoryPost($slug){
 
         try {
-            $category = Category::withoutTrashed()->where('slug', $slug)->select('id', 'category_name')->first();
+            $category = Category::withoutTrashed()->where('slug', $slug)->select('id', 'category_name', 'meta_description')->first();
+
             $posts = Post::withoutTrashed()->with(['category:category_name', 'user:name'])->where('category_id', $category->id)->where('status', 'published')->select('id','title','description', 'feature_img','category_id', 'status','slug')->orderBy('id', 'desc')->paginate(18);
 
             SEOMeta::setTitle($category->category_name);
             SEOMeta::setDescription($category->meta_description);
+
             return view('post.category-posts',compact('posts'));
         }catch (\Exception $e){
             if (config('app.debug')){
@@ -85,5 +87,12 @@ class PostController extends Controller
             }
 
         }
+    }
+
+    public function post(){
+        return redirect()->route('home');
+    }
+    public function category(){
+        return redirect()->route('home');
     }
 }

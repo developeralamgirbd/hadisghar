@@ -7,10 +7,13 @@
                     @foreach($posts as $post)
                         <div class="post-grid rounded w-full h-full mb-10">
                             <h1 class="text-lg lg:text-xl font-semibold text-green-700"> <a href="{{ route('post.view', $post->slug) }}">{{ $post->title }}</a></h1>
-                            <img src=" {{ asset($post->feature_img)  }}" alt="" class="w-full">
-                            <p class="my-2 text-gray-800">
-                                {!! \Illuminate\Support\Str::limit($post->description, 200)  !!} <a href="{{ route('post.view', $post->slug) }}" class="ml-2 text-green-700">আরো পড়ুন</a>
-                            </p>
+                            @if($post->feature_img)
+                                <img src=" {{ asset($post->feature_img)  }}" alt="" class="w-full">
+                            @endif
+                            <div class="my-2 text-gray-800 text-[16px] font-light">
+                                {{ strip_tags(\Illuminate\Support\Str::limit($post->description, 290)) }}
+                                <a href="{{ route('post.view', $post->slug) }}" class="ml-2 text-green-700">আরো পড়ুন</a>
+                            </div>
                         </div>
                     @endforeach
             </div>

@@ -171,7 +171,9 @@ Route::post('/logout', [\App\Http\Controllers\AuthenticatedSessionController::cl
 | Frontend routes
  ***********************************************************/
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'home'])->name('home');
+Route::get('post', [\App\Http\Controllers\PostController::class, 'post'])->name('post');
 Route::get('post/{slug}', [\App\Http\Controllers\PostController::class, 'view'])->name('post.view');
+Route::get('category', [\App\Http\Controllers\PostController::class, 'category'])->name('category');
 Route::get('category/{slug}', [\App\Http\Controllers\PostController::class, 'categoryPost'])->name('category.post');
 Route::get('/privacy', [\App\Http\Controllers\HomeController::class, 'privacy'])->name('page.privacy');
 

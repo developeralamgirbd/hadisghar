@@ -101,10 +101,13 @@ class PostController extends Controller
             echo $e->getMessage();
         }
     }
+
+
     public function update(Request $request, $id){
         $request->validate([
             'title' => 'required|unique:posts,title,'.$id,
             'description' => 'required',
+            'meta_description' => 'required',
             'slug' => 'required|unique:posts,slug,'.$id,
             'category' => 'required',
             'photo' => 'mimes:jpg,jpeg,png|max:10240',
@@ -125,6 +128,7 @@ class PostController extends Controller
             $post = Post::findOrFail($id);
             $post->title = $request->title;
             $post->description = $request->description;
+            $post->meta_description = $request->meta_description;
             $post->slug = Str::slug($request->slug);
             $post->category_id = $request->category;
             $post->user_id = Auth::id();

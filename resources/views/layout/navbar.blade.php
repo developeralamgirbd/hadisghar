@@ -32,7 +32,7 @@
         </div>
             <nav class="mt-4">
                 <div class="flex justify-between items-center md:hidden text-lg font-semibold">
-                    <a href="/" class="font-semibold {{ (request()->is('/')) ? 'text-green-600' : 'text-gray-800' }}">হোম</a>
+                    <a href="/" class="font-semibold text-xl {{ (request()->is('/')) ? 'text-rose-600' : 'text-green-600' }}">হোম</a>
                     <button type="button" class="bg-slate-100 rounded p-2" id="bar">
                         <svg class="w-[22px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
                     </button>
@@ -42,7 +42,7 @@
                     <li class="mr-1 hidden md:inline"><a href="/" class="font-semibold {{ (request()->is('/')) ? 'text-rose-600' : 'text-green-600' }}"> হোম </a><span class="hidden md:inline">/</span></li>
                     @foreach($categories as $category)
                         <li class="md:inline md:mr-1">
-                            <a href="{{route('category.post', $category->slug)}}" class=" {{ (request()->is('category/'.$category->slug)) ? 'text-rose-600' : 'md:text-green-600' }} hover:text-rose-500 transition duration-300 bg-gray-100 md:bg-transparent w-full md:w-auto block md:inline p-2 md:p-0 border-b border-white md:border-none text-center md:text-left font-semibold">{{\Illuminate\Support\Str::replace(' ', ', ', $category->category_name)}}
+                            <a href="{{route('category.post', $category->slug)}}" class=" {{ (request()->is('category/'.$category->slug)) ? 'text-rose-600' : 'text-green-600' }} hover:text-rose-500 transition duration-300 bg-gray-100 md:bg-transparent w-full md:w-auto block md:inline p-2 md:p-0 border-b border-white md:border-none text-center md:text-left font-semibold">{{\Illuminate\Support\Str::replace(' ', ', ', $category->category_name)}}
                                  </a><span class="hidden md:inline">/</span></li>
                     @endforeach
                 </ul>

@@ -17,6 +17,7 @@
                     <!--
                     ! Previous and next post pagination
                     -->
+                    @if(!empty($previous->slug) || !empty($next->slug))
                     <div class="lg:flex justify-between items-center pb-14">
                         @if( !empty($previous->slug))
                         <div class="previews">
@@ -37,6 +38,7 @@
                             <div class=""></div>
                         @endif
                     </div>
+                @endif
                     <!--
                   ! Previous and next post pagination End
                   -->

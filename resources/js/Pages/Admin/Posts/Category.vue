@@ -37,6 +37,7 @@
                                 :class="errors.slug ? 'border-red-500': ''"
                                 autofocus
                             />
+                            <p class="text-sm text-red-500 mb-2" v-if="errors.slug">{{errors.slug}}</p>
                             <div class="input-group w-full mt-8">
                                 <label for="metaDescription" class="text-gray-800 text-lg">Meta Description<span class="text-rose-500">*</span></label>
                                 <textarea type="text"
@@ -50,7 +51,7 @@
                                 <progress id="CatMetaProgress" max="156" :value="form.meta_description.length" class="block w-full"></progress>
                                 <p class="text-red-500 " v-if="errors.meta_description">{{ errors.meta_description }}</p>
                             </div>
-                            <p class="text-sm text-red-500 mb-2" v-if="errors.slug">{{errors.slug}}</p>
+                            
                             <button type="submit" class="bg-green-500 py-2 px-4 text-white text-lg rounded mt-4"><i class="fa-solid fa-floppy-disk"></i> Create</button>
                         </form>
                     </div>
@@ -101,6 +102,7 @@ export default {
 }
 </script>
 <script setup>
+
 import {ref, watch} from "vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 
@@ -115,7 +117,7 @@ const form = useForm({
 });
 
 watch(form, (current, old) => {
-    let catVal = form.category_name.replace(/([' ','@','#','%','^','&','*','(',')','|','~','`','"',"'",'!','৥৳','%','ঃ',"\\/"]+)/g, '-');
+    let catVal = form.category_name.replace(/([' ','@','#','%','^','&','*','(',')','|','-','~','?','`','"',"'",'!','৥৳','%','ঃ',"\\/"]+)/g, '-');
     form.slug = catVal.toLowerCase();
     lengthSeoMeta.value = form.meta_description.length;
 

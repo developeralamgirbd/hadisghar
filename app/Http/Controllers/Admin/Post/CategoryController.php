@@ -42,6 +42,7 @@ class CategoryController extends Controller
         $request->validate([
             'category' => 'required|unique:categories,category_name,'.$id,
             'categorySlug' => 'required|unique:categories,slug,'.$id,
+            'meta_description' => 'required'
         ]);
         try {
             $category = Category::findOrFail($id);

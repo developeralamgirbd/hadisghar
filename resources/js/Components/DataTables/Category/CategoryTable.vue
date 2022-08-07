@@ -34,8 +34,8 @@
         </tr>
         </thead>
 
-        <tbody>
-        <tr v-if="rows.length > 0" v-for="(category, index) in rows" :key="index">
+        <tbody v-if="rows.length > 0" >
+        <tr v-for="(category, index) in rows" :key="index">
             <td>
                 {{ category.category_name ? category.category_name : '' }}
             </td>
@@ -141,7 +141,7 @@
                     <li v-for="pageNum in showPagination" :key="pageNum"
                         class="border border-white hover:text-blue-500 transition rounded"
                         :class="pageNum === currentPage ? 'bg-gray-300 border-white' : 'text-gray-900'"
-                        v-if="currentEntries < showInfo.of">
+                        >
                         <button type="button" @click.prevent="paginateEvent(pageNum)" class="block py-1 px-4" :disabled="pageNum === currentPage" v-if="currentEntries < showInfo.of">{{ pageNum }}</button>
                     </li>
 
@@ -316,8 +316,9 @@ export default {
         },
         updateForm:{
             handler(){
-                let catVal = this.updateForm.category.replace(/([" "]+)/g, '-');
+                let catVal = this.updateForm.category.replace(/([' ','@','#','%','^','&','*','(',')','|','-','~','?','`','"',"'",'!','৥৳','%','ঃ',"\\/"]+)/g, '-');
                 this.updateForm.categorySlug = catVal.toLowerCase();
+                
                     this.lengthSeoMeta = this.updateForm.meta_description.length;
 
                     if (this.updateForm.meta_description !== ''){
